@@ -26,19 +26,22 @@ class MainWindow(QWidget):
     def setUI(self):
         self.cv_raw.type_name = ContentType.raw
         self.cv_intermediate.type_name = ContentType.mid
+        self.cv_contours.type_name = ContentType.cnt
         self.cv_product.type_name = ContentType.res
         self.cap.change_pixmap_signal.connect(self.cv_raw.labelUpdate)
         self.cap.change_pixmap_signal.connect(self.cv_intermediate.labelUpdate)
+        self.cap.change_pixmap_signal.connect(self.cv_contours.labelUpdate)
         self.cap.change_pixmap_signal.connect(self.cv_product.labelUpdate)
         self.btn_savedata.released.connect(self.cap.saveData)
         self.btn_savesvm.released.connect(self.cap.saveSVM)
         self.btn_train.released.connect(self.cap.trainSVM)
         self.cap.change_display_freeze.connect(self.btn_adddata.setEnabled)
+        self.cap.predict_result.connect(self.result_display.setText)
 
     def initVC(self):
         self.cap = VideoCapture()
-        self.cap.content_width = 500
-        self.cap.content_height = 300
+        self.cap.content_width = 640
+        self.cap.content_height = 480
         if self.cap.isOpened():
             self.cap.start()
 

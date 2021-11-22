@@ -1,3 +1,4 @@
 opencv_example/*
 resource
 */__pycache__/*
+lib/*

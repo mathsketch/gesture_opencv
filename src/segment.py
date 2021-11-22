@@ -37,16 +37,16 @@ def equalize(img):
 
 
 def getSkin(img):
-    imgAvg = equalize(img)
+    # imgAvg = equalize(img)
 
-    imgBlur = blur(imgAvg, 3, 0)
+    # imgBlur = blur(imgAvg, 3, 0)
 
     skincrcbHist = np.zeros((256, 256), np.uint8)
     cv.ellipse(skincrcbHist, (113, 155), (23, 25), 43, 0, 360, (255, 255, 255), -1)
 
-    img_ycrcb = cv.cvtColor(imgBlur, cv.COLOR_BGR2YCrCb)
+    img_ycrcb = cv.cvtColor(img, cv.COLOR_BGR2YCrCb)
     y, cr, cb = cv.split(img_ycrcb)
-    w, h = cr.shape
+    w, h = img.shape[:2]
     mask = np.zeros((w, h), np.uint8)
 
     for x in range(w):

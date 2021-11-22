@@ -28,10 +28,12 @@ class HandSegment():
         self.image_without_bg = None
         self.image_hand_mask = None
         self.image_draw_cnt = None
+        self.image_draw_res = None
 
         self.bg = None
         self.contour = None
         self.feature_info = None
+        self.predict_res = None
 
     def bgSubtraction(self, count, weight=0.7):
         """去背景"""
@@ -54,7 +56,10 @@ class HandSegment():
     def getMaskHSV(self):
         """通过HSV色彩空间分离背景，得到手部mask"""
         img = self.image if self.image_without_bg is None else self.image_without_bg
-        blur = cv.GaussianBlur(img, (5, 5), 90)
+        img = cv.cuda_GpuMat(img)
+        img = cv.cuda.bilateralFilter(img, 20, 50, 50)
+        blur = img.download()
+        # blur = cv.GaussianBlur(img, (5, 5), 90)
         img_hsv = cv.cvtColor(blur, cv.COLOR_BGR2YCrCb)
         mask = cv.inRange(img_hsv, self.low, self.high)
         mask = cv.medianBlur(mask, 7)
@@ -72,17 +77,18 @@ class HandSegment():
             return None
         canny = cv.Canny(self.image_hand_mask, 25, 200)
         contours, hierarchy = cv.findContours(canny, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_NONE)
+        contours = list(contours)
         if contours:
             contours.sort(key=lambda x: cv.arcLength(x, False), reverse=True)
-            if len(contours) >= 2:
-                self.contour = np.concatenate(contours[0:2])
-            else:
-                self.contour = contours[0]
+            # if len(contours) >= 2:
+            #     self.contour = np.concatenate(contours[0:2])
+            # else:
+            self.contour = contours[0]
         else:
             self.contour = None
         return self.contour
 
-    def drawContour(self, style, color=(255, 0, 255), thick=2):
+    def drawContour(self, style, color=(37, 177, 247), thick=2):
         """绘制手部轮廓"""
         img = self.image.copy()
         if self.contour is not None:
@@ -93,11 +99,32 @@ class HandSegment():
                 rect = cv.boundingRect(self.contour)
                 cv.rectangle(img, rect, color, thick)
             elif style == CntStyle.aprect:
-                rect = cv.approxPolyDP(self.contour, 1, True)
-                rect = cv.boundingRect(self.contour)
+                poly = cv.approxPolyDP(self.contour, 32, True)
+                rect = cv.boundingRect(poly)
                 cv.rectangle(img, rect, color, thick)
+                # cv.polylines(img, [rect], True, color, thick)
         self.image_draw_cnt = img
         return self.image_draw_cnt
+
+    def drawResult(self, font=cv.FONT_HERSHEY_SIMPLEX, scale=1, color=(37, 177, 247), thick=2):
+        """绘制手部轮廓"""
+        img = self.image.copy()
+        if self.contour is not None:
+            poly = cv.approxPolyDP(self.contour, 32, True)
+            rect = cv.boundingRect(poly)
+            if self.predict_res is not None:
+                text = "result:" + self.predict_res
+                text_w, text_h = cv.getTextSize(text, font, scale, thick)[0]
+                pos = (rect[0], rect[1] - text_h)
+                text_ws, text_hs = cv.getTextSize(text, font, scale - 0.3, thick)[0]
+                cv.rectangle(img, pos, (pos[0] + text_w, pos[1] + text_h), color, -1)
+                cv.putText(img, text, (rect[0] + (text_w - text_ws) // 2, rect[1] - (text_h - text_hs + thick) // 2),
+                           font, scale - 0.3, (53, 57, 63), thick)
+                cv.rectangle(img, pos, (pos[0] + text_w, pos[1] + text_h), color, thick)
+            cv.rectangle(img, rect, color, thick)
+
+        self.image_draw_res = img
+        return self.image_draw_res
 
     def getfourier(self):
         """获得傅立叶描述子"""

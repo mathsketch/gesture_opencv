@@ -48,7 +48,10 @@
        <item row="0" column="1">
         <widget class="CvWidget" name="cv_intermediate" native="true"/>
        </item>
-       <item row="2" column="0" colspan="2">
+       <item row="1" column="0">
+        <widget class="CvWidget" name="cv_contours" native="true"/>
+       </item>
+       <item row="1" column="1">
         <widget class="CvWidget" name="cv_product" native="true"/>
        </item>
       </layout>
@@ -136,6 +139,19 @@
           </widget>
          </item>
          <item>
+          <widget class="QCheckBox" name="product_2">
+           <property name="text">
+            <string>contours</string>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QCheckBox" name="product">
            <property name="text">
             <string>product</string>
@@ -165,13 +181,29 @@
           <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,1">
            <item>
             <widget class="QLabel" name="label_result">
+             <property name="font">
+              <font>
+               <family>Noto Sans Mono</family>
+               <pointsize>15</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
              <property name="text">
               <string>Result:</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="result">
+            <widget class="QLabel" name="result_display">
+             <property name="font">
+              <font>
+               <family>Noto Sans Mono</family>
+               <pointsize>15</pointsize>
+               <weight>50</weight>
+               <bold>false</bold>
+              </font>
+             </property>
              <property name="text">
               <string/>
              </property>
@@ -630,12 +662,12 @@
    <slot>setNum(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>860</x>
-     <y>84</y>
+     <x>822</x>
+     <y>61</y>
     </hint>
     <hint type="destinationlabel">
-     <x>860</x>
-     <y>84</y>
+     <x>858</x>
+     <y>61</y>
     </hint>
    </hints>
   </connection>
@@ -646,12 +678,12 @@
    <slot>setNum(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>860</x>
-     <y>84</y>
+     <x>822</x>
+     <y>65</y>
     </hint>
     <hint type="destinationlabel">
-     <x>860</x>
-     <y>84</y>
+     <x>858</x>
+     <y>65</y>
     </hint>
    </hints>
   </connection>
@@ -662,12 +694,12 @@
    <slot>setNum(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>860</x>
-     <y>84</y>
+     <x>822</x>
+     <y>69</y>
     </hint>
     <hint type="destinationlabel">
-     <x>860</x>
-     <y>84</y>
+     <x>858</x>
+     <y>69</y>
     </hint>
    </hints>
   </connection>
@@ -678,12 +710,12 @@
    <slot>setNum(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>860</x>
-     <y>84</y>
+     <x>822</x>
+     <y>76</y>
     </hint>
     <hint type="destinationlabel">
-     <x>860</x>
-     <y>84</y>
+     <x>858</x>
+     <y>76</y>
     </hint>
    </hints>
   </connection>
@@ -694,12 +726,12 @@
    <slot>setNum(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>860</x>
-     <y>84</y>
+     <x>822</x>
+     <y>80</y>
     </hint>
     <hint type="destinationlabel">
-     <x>860</x>
-     <y>84</y>
+     <x>858</x>
+     <y>80</y>
     </hint>
    </hints>
   </connection>
@@ -710,12 +742,12 @@
    <slot>setNum(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>860</x>
-     <y>84</y>
+     <x>822</x>
+     <y>73</y>
     </hint>
     <hint type="destinationlabel">
-     <x>860</x>
-     <y>84</y>
+     <x>858</x>
+     <y>73</y>
     </hint>
    </hints>
   </connection>
@@ -726,8 +758,8 @@
    <slot>updateValue()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>860</x>
-     <y>84</y>
+     <x>822</x>
+     <y>61</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -742,8 +774,8 @@
    <slot>updateValue()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>860</x>
-     <y>84</y>
+     <x>822</x>
+     <y>65</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -758,8 +790,8 @@
    <slot>updateValue()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>860</x>
-     <y>84</y>
+     <x>822</x>
+     <y>69</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -774,8 +806,8 @@
    <slot>updateValue()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>860</x>
-     <y>84</y>
+     <x>822</x>
+     <y>73</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -790,8 +822,8 @@
    <slot>updateValue()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>860</x>
-     <y>84</y>
+     <x>822</x>
+     <y>76</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -806,8 +838,8 @@
    <slot>updateValue()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>860</x>
-     <y>84</y>
+     <x>822</x>
+     <y>80</y>
     </hint>
     <hint type="destinationlabel">
      <x>359</x>
@@ -838,8 +870,8 @@
    <slot>toggleDisplay(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>854</x>
-     <y>68</y>
+     <x>1054</x>
+     <y>130</y>
     </hint>
     <hint type="destinationlabel">
      <x>171</x>
@@ -854,8 +886,8 @@
    <slot>toggleDisplay(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>854</x>
-     <y>72</y>
+     <x>1054</x>
+     <y>166</y>
     </hint>
     <hint type="destinationlabel">
      <x>678</x>
@@ -870,11 +902,11 @@
    <slot>toggleDisplay(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>854</x>
-     <y>76</y>
+     <x>1054</x>
+     <y>238</y>
     </hint>
     <hint type="destinationlabel">
-     <x>262</x>
+     <x>631</x>
      <y>415</y>
     </hint>
    </hints>
@@ -886,8 +918,8 @@
    <slot>toggleBackground(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>854</x>
-     <y>64</y>
+     <x>1054</x>
+     <y>94</y>
     </hint>
     <hint type="destinationlabel">
      <x>327</x>
@@ -902,8 +934,8 @@
    <slot>displayFreeze()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>995</x>
-     <y>128</y>
+     <x>991</x>
+     <y>107</y>
     </hint>
     <hint type="destinationlabel">
      <x>746</x>
@@ -918,8 +950,8 @@
    <slot>setDataAction()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>849</x>
-     <y>170</y>
+     <x>807</x>
+     <y>156</y>
     </hint>
     <hint type="destinationlabel">
      <x>649</x>
@@ -934,12 +966,28 @@
    <slot>setLabelName()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>898</x>
-     <y>79</y>
+     <x>864</x>
+     <y>62</y>
     </hint>
     <hint type="destinationlabel">
      <x>764</x>
      <y>-9</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>product_2</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>cv_contours</receiver>
+   <slot>toggleDisplay(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>847</x>
+     <y>183</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>234</x>
+     <y>418</y>
     </hint>
    </hints>
   </connection>

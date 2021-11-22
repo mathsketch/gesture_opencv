@@ -11,15 +11,16 @@ except Exception:
 
 
 class ContentType(Enum):
-    raw = 'raw'
-    mid = 'mid'
-    res = 'res'
-    pre = 'predict'
+    raw = 'image'
+    mid = 'mask'
+    cnt = 'contours'
+    res = 'predict'
 
 
 class VideoCapture(QThread):
     change_pixmap_signal = pyqtSignal(dict)
     change_display_freeze = pyqtSignal(bool)
+    predict_result = pyqtSignal(str)
 
     def __init__(self):
         super().__init__()
@@ -42,7 +43,7 @@ class VideoCapture(QThread):
         self.label_name = ''
 
     def _initCap(self):
-        self.cap = cv.VideoCapture(0)
+        self.cap = cv.VideoCapture(0, cv.CAP_V4L2)
         self.cap.set(cv.CAP_PROP_FRAME_WIDTH, self.width)
         self.cap.set(cv.CAP_PROP_FRAME_HEIGHT, self.height)
 
@@ -93,10 +94,11 @@ class VideoCapture(QThread):
                     self.hand.image_without_bg = None
                     bg_avg_count = 0
 
-                self.content[ContentType.raw] = self.hand.image if self.hand.image_without_bg is None else self.hand.image_without_bg
+                self.content[ContentType.raw] = self.hand.image # if self.hand.image_without_bg is None else self.hand.image_without_bg
                 self.content[ContentType.mid] = self.hand.getMaskHSV()
                 self.hand.getContour()
-                self.content[ContentType.res] = self.hand.drawContour(gesture.CntStyle.cnt)
+                self.content[ContentType.cnt] = self.hand.drawContour(gesture.CntStyle.cnt)
+                self.content[ContentType.res] = self.hand.drawResult()
 
                 # 手势预测
                 frame_count += 1
@@ -105,7 +107,10 @@ class VideoCapture(QThread):
                     self.hand.getfourier()
                     if self.hand.feature_info is not None and len(self.hand.feature_info) == self.hand.data_width - 1:
                         res = self.svm.predict(self.hand.feature_info)
-                        print(res)
+                        res = str(int(res.tolist()[0][0]))
+                        self.predict_result.emit(res)
+                        self.hand.predict_res = res
+                        # print(res)
 
                 self.change_pixmap_signal.emit(self.content)
         self.cap.release()
